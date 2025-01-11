@@ -22,6 +22,7 @@ splash = "1.0.1"
 workManager = "2.7.0"
 crashlyticsPlugin = "3.0.2"
 servicesPlugin = "4.4.2"
+room = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -60,6 +61,9 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 splash = { module = "androidx.core:core-splashscreen", version.ref = "splash" }
 work-manager = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 
 [plugins]

@@ -137,6 +137,10 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.work.manager)
     implementation(libs.splash)
+    implementation(libs.room)
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
+    annotationProcessor(libs.room.compiler)
 
 
 }
