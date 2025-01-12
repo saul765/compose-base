@@ -1,3 +1,38 @@
 <resources>
     <string name="app_name">composeBase</string>
+
+    <string name="local_default_loading_message">Loading…</string>
+
+    <string name="offline_mode_message">The internet connection has been lost, the app will work in offline mode</string>
+
+    <!-- Core Texts -->
+    <string name="icon_content_description_text">Example Icon</string>
+    <string name="app_icon_content_description">App Icon</string>
+
+    <string name="alert_dialog_error_title">Attention</string>
+    <string name="alert_dialog_accept">Accept</string>
+    <string name="alert_dialog_cancel">Cancel</string>
+
+    <!-- Network Error Messages -->
+    <string name="network_error_unauthorized">You are not authorized to make requests.</string>
+    <string name="network_error_unauthorized_action">Log out and try again.</string>
+    <string name="network_error_forbidden">You do not have access to this resource.</string>
+    <string name="network_error_forbidden_action">Contact the operations team.</string>
+    <string name="network_error_bad_request">The request is malformed.</string>
+    <string name="network_error_bad_request_action">The development team has been automatically informed.</string>
+    <string name="network_error_not_found">The requested petition was not found.</string>
+    <string name="network_error_not_found_action">The development team has been automatically informed.</string>
+    <string name="network_error_request_timeout">The maximum waiting time has been exceeded.</string>
+    <string name="network_error_request_timeout_action">Try again later.</string>
+    <string name="network_error_server">A server error occurred.</string>
+    <string name="network_error_server_action">The development team has been automatically informed.</string>
+    <string name="network_error_network">A network error occurred.</string>
+    <string name="network_error_network_action">Try again later.</string>
+    <string name="network_safe_request_error">The following error occurred:</string>
+    <string name="local_unexpected_error_message">An unexpected error occurred</string>
+    <string name="local_unexpected_error_description_message">The development team has been automatically informed.</string>
+
+
+    <string name="bottom_navigation_home">Home</string>
+    <string name="bottom_navigation_settings">Settings</string>
 </resources>
