@@ -6,7 +6,8 @@ import com.example.composebase.core.base.screen.BaseScreen
 
 
 @Composable
-fun HomeScreen() = BaseScreen<HomeViewModel>() { viewModel ->
+fun HomeScreen() =
+    BaseScreen<HomeViewModel>() { viewModel ->
 
-    Text(text = "Home Screen")
-}
+        Text(text = "Home Screen")
+    }
