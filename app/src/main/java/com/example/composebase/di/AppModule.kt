@@ -1,5 +1,11 @@
 package com.example.composebase.di
 
+import com.ba.pokedex.utils.notifications.INotificationService
+import com.example.composebase.core.utils.notifications.NotificationService
+import com.example.composebase.core.utils.permissions.IPermissionService
+import com.example.composebase.core.utils.permissions.PermissionService
+import org.koin.dsl.module
+
 object AppModule {
 
 
@@ -9,6 +15,14 @@ object AppModule {
         UtilsModule.module,
         WebServiceModule.module
     )
+
+    private val myModule = module {
+
+        single<INotificationService> { NotificationService() }
+
+        single<IPermissionService> { PermissionService() }
+
+    }
 
     private val databaseModule = listOf(DatabaseModule.module)
 
@@ -25,5 +39,5 @@ object AppModule {
 
     val modules =
         coreModules + databaseModule + viewModelsModules + useCasesModules +
-                firebaseModules + networkModules + repositoriesModules
+                firebaseModules + networkModules + repositoriesModules + myModule
 }

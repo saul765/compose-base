@@ -13,5 +13,8 @@ object DatabaseModule {
             Room.databaseBuilder(get(), BaseDatabase::class.java, DATABASE_NAME).build()
         }
 
+        single {
+            get<BaseDatabase>().pokemonDao()
+        }
     }
 }

@@ -4,6 +4,10 @@
     <string name="local_default_loading_message">Loading…</string>
 
     <string name="offline_mode_message">The internet connection has been lost, the app will work in offline mode</string>
+    <string name="online_mode_message">The internet connection has been restored, the app will work in online mode</string>
+
+    <!--Open settings-->
+    <string name="open_settings_uri">package</string>
 
     <!-- Core Texts -->
     <string name="icon_content_description_text">Example Icon</string>
@@ -35,4 +39,34 @@
 
     <string name="bottom_navigation_home">Home</string>
     <string name="bottom_navigation_settings">Settings</string>
+
+
+    <string name="pokemon_base_url">https://pokeapi.co/api/v2/</string>
+
+    <string name="generic_error">An unexpected error occurred, please try again later</string>
+    <string name="error_no_internet_connection_body">Make sure that the Wi-Fi connection or mobile data is active and try again.</string>
+
+    <string name="pokemon_permission_denied_notifications_title">Important Advice!</string>
+    <string name="pokemon_permission_denied_notifications_message">Notifications is an important feature for you to stay tuned to last Pokédex updates</string>
+
+    <string name="pokemon_home_title">Pokédex</string>
+    <string name="pokemon_item_content_description">Pokemon Image</string>
+    <string name="pokeball_image_content_description">Pokeball Image</string>
+    <string name="search_bar_text">Search</string>
+
+    <string name="pokemon_worker_notification_title">New Pokemons!</string>
+    <string name="pokemon_worker_notification_body">New Pokemons have been added to the Pokédex, Now you have %1s registered!</string>
+
+    <string name="pokemon_worker_error_notification_title">Pokedex Load Error</string>
+    <string name="pokemon_worker_error_notification_body">An error occurred while trying to update the Pokédex, check you internet connection</string>
+
+
+    <string name="alert_dialog_permissions_title">Permisos</string>
+    <string name="alert_dialog_permissions_rationale_settings">Ajustes</string>
+    <string name="alert_dialog_permissions_accept">Aceptar</string>
+
+
+    pokemon_rationale_permission
+
+    <string name="pokemon_rationale_permission">The Pokédex needs access to notifications to catch some pokemons, please enable it on settings</string>
 </resources>

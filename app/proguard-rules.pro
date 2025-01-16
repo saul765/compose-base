@@ -19,3 +19,22 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-dontwarn org.slf4j.impl.StaticLoggerBinder
+-keepattributes SourceFile,LineNumberTable        # Keep file names and line numbers.
+-keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.
+
+
+# Preserve all classes annotated with @Serializable
+-keep @kotlinx.serialization.Serializable class *
+-keepclassmembers class * {
+    @kotlinx.serialization.Transient <fields>;
+}
+
+# Preserve generated serializer methods
+-keepclassmembers class * {
+    kotlinx.serialization.KSerializer serializer(...);
+}
+
+# Preserve the kotlinx.serialization library classes
+-keep class kotlinx.serialization.** { *; }
+-keep class kotlinx.serialization.internal.** { *; }

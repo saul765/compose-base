@@ -1,5 +1,7 @@
 package com.example.composebase.feature.home.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -18,12 +20,14 @@ data object HomeBaseRoute
 fun NavController.navigateToHome(navOptions: NavOptions? = null) =
     navigate(route = HomeRoute, navOptions = navOptions)
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.homeGraph(
+    onSearchClick: () -> Unit,
     nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
     navigation<HomeBaseRoute>(startDestination = HomeRoute) {
         composable<HomeRoute> {
-            HomeScreen()
+            HomeScreen(onSearchClick = onSearchClick)
         }
         nestedGraphs()
     }

@@ -7,7 +7,7 @@ import com.example.composebase.core.base.state.BaseDialogState
 import com.example.composebase.core.data.UIStateStatus
 import com.example.composebase.core.data.exception.ErrorMessage
 import com.example.composebase.core.data.exception.getErrorMessage
-import com.example.composebase.core.design_system.GAFErrorDialogInformation
+import com.example.composebase.core.design_system.ErrorDialogInformation
 
 
 @Composable
@@ -25,7 +25,7 @@ fun UIStateStatus.Error<*>.ShowErrorDialog() {
         )
     }
 
-    GAFErrorDialogInformation(
+    ErrorDialogInformation(
         dialogText = failureReason.first,
         dialogAssistText = failureReason.second
     )
@@ -46,7 +46,7 @@ fun Throwable.ShowErrorDialog(dialogState: BaseDialogState, onDismissRequest: ()
         )
     }
 
-    GAFErrorDialogInformation(
+    ErrorDialogInformation(
         state = dialogState,
         onDismissRequest = onDismissRequest,
         dialogText = failureReason.first,

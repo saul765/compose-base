@@ -2,13 +2,14 @@ package com.example.composebase.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.composebase.core.model.entity.TestEntity
+import com.example.composebase.core.database.dao.IPokemonDao
+import com.example.composebase.core.database.entity.PokemonEntity
 
 @Database(
-    entities = [TestEntity::class],
+    entities = [PokemonEntity::class],
     version = 1,
     exportSchema = true
 )
 abstract class BaseDatabase : RoomDatabase() {
-    //TODO Add your DAOs here
+    abstract fun pokemonDao(): IPokemonDao
 }

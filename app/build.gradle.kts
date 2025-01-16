@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.composebase"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -100,6 +100,9 @@ fun getGradleLocalProperties() = Properties().apply {
 
 dependencies {
 
+    implementation(libs.retrofit)
+    implementation(libs.converterGson)
+    implementation(libs.loggingInterceptor)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

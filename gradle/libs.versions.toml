@@ -23,6 +23,8 @@ workManager = "2.7.0"
 crashlyticsPlugin = "3.0.2"
 servicesPlugin = "4.4.2"
 room = "2.6.1"
+retrofit = "2.9.0"
+interceptor = "4.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,7 +66,9 @@ work-manager = { module = "androidx.work:work-runtime-ktx", version.ref = "workM
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+converterGson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+loggingInterceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "interceptor" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

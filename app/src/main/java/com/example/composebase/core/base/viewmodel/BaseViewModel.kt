@@ -4,13 +4,17 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import com.example.composebase.R
 import com.example.composebase.core.model.LoadingState
+import com.example.composebase.core.utils.coroutines.ICoroutineContextProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 
 abstract class BaseViewModel : ViewModel(), KoinComponent {
+
+    val contextProvider by inject<ICoroutineContextProvider>()
 
     private val _loadingState = MutableStateFlow(LoadingState())
 

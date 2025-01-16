@@ -1,7 +1,6 @@
 package com.example.composebase.ui
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
@@ -13,7 +12,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
@@ -33,10 +35,22 @@ fun ComposeBaseApp(navigationState: ComposeBaseNavigationState, uiState: AppUiSt
 
     val offlineModeMessage = stringResource(R.string.offline_mode_message)
 
+    val onlineModeMessage = stringResource(R.string.online_mode_message)
+
+    var wasOffline by remember { mutableStateOf(false) }
+
+
     LaunchedEffect(uiState.isOnline) {
         if (!uiState.isOnline) {
+            wasOffline = true
             snackBarHostState.showSnackbar(
                 message = offlineModeMessage,
+                duration = SnackbarDuration.Long
+            )
+        } else if (wasOffline) {
+            wasOffline = false
+            snackBarHostState.showSnackbar(
+                message = onlineModeMessage,
                 duration = SnackbarDuration.Long
             )
         }
