@@ -27,26 +27,26 @@ android {
         }
     }
 
-    buildTypes {
-        buildTypes {
-            debug {
-                enableUnitTestCoverage = true
-                isDebuggable = true
 
-                firebaseCrashlytics {
-                    mappingFileUploadEnabled = false
-                }
-            }
-            release {
-                isMinifyEnabled = true
-                isShrinkResources = true
-                proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-                )
+    buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+            isDebuggable = true
+
+            firebaseCrashlytics {
+                mappingFileUploadEnabled = false
             }
         }
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
     }
+
 
     flavorDimensions += "server"
 

@@ -1,4 +1,4 @@
-package com.example.composbase
+package com.example.composebase
 
 import com.example.composebase.core.base.IBaseAppConfig
 

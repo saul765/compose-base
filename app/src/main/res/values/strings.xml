@@ -65,8 +65,5 @@
     <string name="alert_dialog_permissions_rationale_settings">Ajustes</string>
     <string name="alert_dialog_permissions_accept">Aceptar</string>
 
-
-    pokemon_rationale_permission
-
     <string name="pokemon_rationale_permission">The Pokédex needs access to notifications to catch some pokemons, please enable it on settings</string>
 </resources>
