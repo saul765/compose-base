@@ -20,7 +20,7 @@ import com.example.composebase.core.base.state.rememberDialogState
 
 
 @Composable
-fun GAFAlertDialog(
+fun AlertDialog(
     modifier: Modifier = Modifier,
     state: BaseDialogState = rememberDialogState(),
     onDismissRequest: () -> Unit,
@@ -30,7 +30,7 @@ fun GAFAlertDialog(
     icon: ImageVector,
     confirmText: String,
     dismissText: String
-) = GAFAlertDialog(
+) = AlertDialog(
     modifier = modifier,
     state = state,
     onDismissRequest = onDismissRequest,
@@ -46,7 +46,7 @@ fun GAFAlertDialog(
 
 
 @Composable
-fun GAFAlertDialog(
+fun AlertDialog(
     modifier: Modifier = Modifier,
     state: BaseDialogState = rememberDialogState(),
     onDismissRequest: () -> Unit,
@@ -100,7 +100,7 @@ fun GAFAlertDialog(
 }
 
 @Composable
-fun GAFContentAlertDialog(
+fun ContentAlertDialog(
     modifier: Modifier = Modifier,
     state: BaseDialogState = rememberDialogState(),
     onDismissRequest: () -> Unit,
@@ -159,7 +159,7 @@ fun GAFContentAlertDialog(
 }
 
 @Composable
-fun GAFAlertDialogInformationWithAnimatedIcon(
+fun AlertDialogInformationWithAnimatedIcon(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
@@ -202,7 +202,7 @@ fun GAFAlertDialogInformationWithAnimatedIcon(
 }
 
 @Composable
-fun GAFErrorDialogInformation(
+fun ErrorDialogInformation(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit = {},
     onConfirmation: () -> Unit = {},
@@ -214,7 +214,7 @@ fun GAFErrorDialogInformation(
     state: BaseDialogState = rememberDialogState()
 ) {
 
-    GAFAlertDialogInformation(
+    AlertDialogInformation(
         state = state,
         modifier = modifier,
         onDismissRequest = {
@@ -234,7 +234,7 @@ fun GAFErrorDialogInformation(
 
 
 @Composable
-fun GAFAlertDialogInformation(
+fun AlertDialogInformation(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit = {},
     onConfirmation: () -> Unit = {},
@@ -244,7 +244,7 @@ fun GAFAlertDialogInformation(
     icon: ImageVector = Icons.Default.Cancel,
     confirmText: String,
     state: BaseDialogState = rememberDialogState()
-) = GAFAlertDialogInformation(
+) = AlertDialogInformation(
     state = state,
     dialogAssistText = dialogAssistText,
     dialogTitle = dialogTitle,
@@ -259,7 +259,7 @@ fun GAFAlertDialogInformation(
 
 
 @Composable
-fun GAFAlertDialogInformation(
+fun AlertDialogInformation(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit = {},
     onConfirmation: () -> Unit = {},

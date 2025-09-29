@@ -1,4 +1,4 @@
-package com.example.composebase.core.data.exception
+package com.example.composebase.core.utils.exception
 
 import com.example.composebase.core.model.DataError
 

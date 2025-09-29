@@ -27,7 +27,7 @@ fun OverlayLoadingWheel(
                 modifier = modifier
                     .size(60.dp),
             ) {
-                GAFLoadingWheel()
+                LoadingWheel()
             }
             message?.let {
                 ProcessMessage(modifier = Modifier.padding(vertical = 5.dp), message = message)

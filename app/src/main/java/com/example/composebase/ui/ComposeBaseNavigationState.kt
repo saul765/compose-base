@@ -50,7 +50,5 @@ fun rememberComposeBaseNavigationState(
 ): ComposeBaseNavigationState = remember(
     navController
 ) {
-    ComposeBaseNavigationState(
-        navController = navController
-    )
+    ComposeBaseNavigationState(navController = navController)
 }

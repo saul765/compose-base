@@ -1,4 +1,4 @@
-package com.example.composebase.core.network
+package com.example.composebase.core.utils.network
 
 
 import android.content.Context

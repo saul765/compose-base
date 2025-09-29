@@ -1,0 +1,19 @@
+package com.example.composebase.ui.theme
+
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+
+data class CustomDimensions(
+    val dimen14: Dp = 14.dp
+)
+
+val LocalCustomDimensions = staticCompositionLocalOf { CustomDimensions() }
+
+val MaterialTheme.customDimens: CustomDimensions
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalCustomDimensions.current

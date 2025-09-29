@@ -1,4 +1,4 @@
-package com.example.composebase.core.data.exception
+package com.example.composebase.core.utils.exception
 
 import androidx.annotation.StringRes
 import com.example.composebase.R

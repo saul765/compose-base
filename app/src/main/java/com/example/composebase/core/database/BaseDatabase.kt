@@ -2,7 +2,7 @@ package com.example.composebase.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.composebase.core.model.entity.TestEntity
+import com.example.composebase.core.database.entity.TestEntity
 
 @Database(
     entities = [TestEntity::class],

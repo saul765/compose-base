@@ -1,28 +1,30 @@
 package com.example.composebase
 
+import androidx.compose.material3.SnackbarDuration
 import androidx.lifecycle.viewModelScope
 import com.example.composebase.core.base.viewmodel.BaseViewModel
-import com.example.composebase.core.model.AppUiState
-import com.example.composebase.core.network.INetworkMonitor
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
+import com.example.composebase.core.helpers.UiText
+import com.example.composebase.core.utils.events.UiEvent
+import com.example.composebase.core.utils.network.INetworkMonitor
+import kotlinx.coroutines.launch
 
-class MainViewModel(networkMonitor: INetworkMonitor) : BaseViewModel() {
+class MainViewModel(private val networkMonitor: INetworkMonitor) : BaseViewModel() {
+    private fun onStart() = viewModelScope.launch {
+        networkMonitor.isOnline.collect {
+            if (!it) {
+                sendEvent(
+                    UiEvent.ShowSnackBar(
+                        message = UiText.StringResource(R.string.offline_mode_message),
+                        duration = SnackbarDuration.Long
+                    )
+                )
+            }
+        }
+    }
 
-
-    val uiState: StateFlow<AppUiState> = combine(
-        networkMonitor.isOnline,
-        flow<Unit> { } //update with any other state you want to combine
-    ) { isOnline, _ ->
-        AppUiState(isOnline = isOnline)
-    }.stateIn(
-        scope = viewModelScope,
-        initialValue = AppUiState(),
-        started = SharingStarted.WhileSubscribed(5_000)
-    )
-
-
+    fun onEvent(event: MainActivityUiEvent) {
+        when (event) {
+            is MainActivityUiEvent.OnStart -> onStart()
+        }
+    }
 }

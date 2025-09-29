@@ -1,3 +1,9 @@
 package com.example.composebase.core.model
 
-data class AppUiState(val isOnline: Boolean = true)
+import com.example.composebase.core.utils.events.UiEvent
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
+
+data class AppUiState(
+    val uiEvents: Flow<UiEvent> = emptyFlow()
+)

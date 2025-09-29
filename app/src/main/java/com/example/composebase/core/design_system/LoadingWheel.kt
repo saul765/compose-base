@@ -31,11 +31,9 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 @Composable
-fun GAFLoadingWheel(
+fun LoadingWheel(
     modifier: Modifier = Modifier,
 ) {
-
-
     val infiniteTransition = rememberInfiniteTransition(label = "wheel transition")
 
     val startValue = if (LocalInspectionMode.current) 0F else 1F
