@@ -35,31 +35,30 @@ fun ComposeBaseApp(
         onEvent(MainActivityUiEvent.OnStart)
     }
 
-
-    BottomBarScaffold(
-        navigationItems = navigationState.topLevelDestinations,
-        navigationItemTitle = { item, _ -> Text(text = stringResource(item.iconText)) },
-        navigationItemIcon = { item, isSelected ->
-            Icon(
-                imageVector = if (isSelected) item.selectedIcon else item.unselectedIcon,
-                contentDescription = null
-            )
-        },
-        isItemSelected = { item ->
-            navigationState.currentDestination?.isRouteInHierarchy(item.route) ?: false
-        },
-        shouldShowNavigationBar =
-            navigationState.topLevelDestinations.any {
-                navigationState.currentDestination?.isRouteInHierarchy(it.route) ?: false
+    UiEventHandler(viewModel.uiEvents) {
+        BottomBarScaffold(
+            navigationItems = navigationState.topLevelDestinations,
+            navigationItemTitle = { item, _ -> Text(text = stringResource(item.iconText)) },
+            navigationItemIcon = { item, isSelected ->
+                Icon(
+                    imageVector = if (isSelected) item.selectedIcon else item.unselectedIcon,
+                    contentDescription = null
+                )
             },
-        onNavigationItemClick = navigationState::navigateToTopLevelDestination,
-        snackbarHost = {
-            SnackbarHost(LocalSnackBarState.current) {
-                SnackBar(data = it)
+            isItemSelected = { item ->
+                navigationState.currentDestination?.isRouteInHierarchy(item.route) ?: false
+            },
+            shouldShowNavigationBar =
+                navigationState.topLevelDestinations.any {
+                    navigationState.currentDestination?.isRouteInHierarchy(it.route) ?: false
+                },
+            onNavigationItemClick = navigationState::navigateToTopLevelDestination,
+            snackbarHost = {
+                SnackbarHost(LocalSnackBarState.current) {
+                    SnackBar(data = it)
+                }
             }
-        }
-    ) { paddingValues ->
-        UiEventHandler(viewModel.uiEvents) {
+        ) { paddingValues ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -71,6 +70,7 @@ fun ComposeBaseApp(
                     navController = navigationState.navController
                 )
             }
+
         }
     }
 }
