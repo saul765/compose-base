@@ -26,14 +26,8 @@ fun ComposeBaseAppNavHost(
         popEnterTransition = { fadeIn() },
         popExitTransition = { fadeOut() }
     ) {
-        homeGraph(
-            nestedGraphs = {
-            }
-        )
+        homeGraph()
 
-        settingsGraph(
-            nestedGraphs = {
-            }
-        )
+        settingsGraph()
     }
 }

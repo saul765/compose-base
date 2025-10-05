@@ -57,45 +57,42 @@ fun AlertDialog(
     confirmText: String,
     dismissText: String
 ) {
-
-
     if (state.isDialogVisible) {
-        MaterialTheme() {
-            AlertDialog(
-                modifier = modifier,
-                icon = {
-                    Icon(
-                        icon,
-                        contentDescription = stringResource(R.string.icon_content_description_text)
-                    )
-                },
-                title = {
-                    Text(text = dialogTitle)
-                },
-                text = dialogText,
-                onDismissRequest = {
-                    onDismissRequest()
-                },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            onConfirmation()
-                        }
-                    ) {
-                        Text(confirmText)
+        AlertDialog(
+            modifier = modifier,
+            icon = {
+                Icon(
+                    icon,
+                    contentDescription = stringResource(R.string.icon_content_description_text)
+                )
+            },
+            title = {
+                Text(text = dialogTitle)
+            },
+            text = dialogText,
+            onDismissRequest = {
+                onDismissRequest()
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onConfirmation()
                     }
-                },
-                dismissButton = {
-                    TextButton(
-                        onClick = {
-                            onDismissRequest()
-                        }
-                    ) {
-                        Text(dismissText)
-                    }
+                ) {
+                    Text(confirmText)
                 }
-            )
-        }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        onDismissRequest()
+                    }
+                ) {
+                    Text(dismissText)
+                }
+            }
+        )
+
     }
 }
 
@@ -169,36 +166,31 @@ fun AlertDialogInformationWithAnimatedIcon(
     icon: @Composable (() -> Unit)? = null,
     confirmText: String,
 ) {
+    AlertDialog(
+        modifier = modifier,
+        icon = icon,
+        title = {
+            Text(text = dialogTitle)
+        },
+        text = {
+            Column {
+                Text(text = dialogText)
+                dialogAssistText?.let {
+                    Text(text = dialogAssistText)
+                }
+            }
+        },
+        onDismissRequest = {
+            onDismissRequest()
+        },
+        confirmButton = {
+            TextButton(onClick = { onConfirmation() }
+            ) {
+                Text(confirmText)
+            }
+        },
+    )
 
-    MaterialTheme() {
-        AlertDialog(
-            modifier = modifier,
-            icon = icon,
-            title = {
-                Text(text = dialogTitle)
-            },
-            text = {
-                Column {
-                    Text(text = dialogText)
-                    dialogAssistText?.let {
-                        Text(text = dialogAssistText)
-                    }
-                }
-            },
-            onDismissRequest = {
-                onDismissRequest()
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        onConfirmation()
-                    }
-                ) {
-                    Text(confirmText)
-                }
-            },
-        )
-    }
 }
 
 @Composable
@@ -213,23 +205,17 @@ fun ErrorDialogInformation(
     @StringRes confirmText: Int = R.string.alert_dialog_accept,
     state: BaseDialogState = rememberDialogState()
 ) {
-
     AlertDialogInformation(
         state = state,
         modifier = modifier,
-        onDismissRequest = {
-            onDismissRequest().also { state.closeDialog() }
-        },
-        onConfirmation = {
-            onConfirmation()
-        },
+        onDismissRequest = { onDismissRequest().also { state.closeDialog() } },
+        onConfirmation = { onConfirmation() },
         dialogTitle = stringResource(dialogTitle),
         dialogText = dialogText,
         dialogAssistText = dialogAssistText,
         icon = icon,
         confirmText = stringResource(confirmText)
     )
-
 }
 
 
@@ -248,9 +234,7 @@ fun AlertDialogInformation(
     state = state,
     dialogAssistText = dialogAssistText,
     dialogTitle = dialogTitle,
-    dialogText = {
-        Text(text = dialogText)
-    },
+    dialogText = { Text(text = dialogText) },
     onDismissRequest = onDismissRequest,
     onConfirmation = onConfirmation,
     icon = icon,

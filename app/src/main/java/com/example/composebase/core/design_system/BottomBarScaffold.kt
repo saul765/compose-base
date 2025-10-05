@@ -27,8 +27,6 @@ fun <T> BottomBarScaffold(
     snackbarHost: @Composable () -> Unit,
     content: @Composable (padding: PaddingValues) -> Unit,
 ) {
-
-
     Box(modifier = modifier) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),

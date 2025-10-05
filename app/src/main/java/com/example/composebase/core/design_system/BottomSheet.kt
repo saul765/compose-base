@@ -3,7 +3,6 @@ package com.example.composebase.core.design_system
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -19,13 +18,10 @@ fun BottomSheet(
     sheetState: SheetState = rememberModalBottomSheetState(),
     content: @Composable ColumnScope.() -> Unit,
 ) {
-
-    MaterialTheme() {
-        ModalBottomSheet(
-            sheetState = sheetState,
-            modifier = modifier,
-            onDismissRequest = onDismissRequest,
-            content = content
-        )
-    }
+    ModalBottomSheet(
+        sheetState = sheetState,
+        modifier = modifier,
+        onDismissRequest = onDismissRequest,
+        content = content
+    )
 }

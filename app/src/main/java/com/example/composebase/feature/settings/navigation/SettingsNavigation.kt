@@ -20,7 +20,7 @@ fun NavController.navigateToSettings(navOptions: NavOptions? = null) =
     navigate(route = SettingsRoute, navOptions = navOptions)
 
 fun NavGraphBuilder.settingsGraph(
-    nestedGraphs: NavGraphBuilder.() -> Unit
+    nestedGraphs: NavGraphBuilder.() -> Unit = {}
 ) {
     navigation<SettingsBaseRoute>(startDestination = SettingsRoute) {
         composable<SettingsRoute> {

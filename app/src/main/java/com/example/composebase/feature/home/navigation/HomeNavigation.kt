@@ -19,7 +19,7 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null) =
     navigate(route = HomeRoute, navOptions = navOptions)
 
 fun NavGraphBuilder.homeGraph(
-    nestedGraphs: NavGraphBuilder.() -> Unit
+    nestedGraphs: NavGraphBuilder.() -> Unit = {}
 ) {
     navigation<HomeBaseRoute>(startDestination = HomeRoute) {
         composable<HomeRoute> {
