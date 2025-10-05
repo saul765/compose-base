@@ -23,6 +23,7 @@ workManager = "2.7.0"
 crashlyticsPlugin = "3.0.2"
 servicesPlugin = "4.4.2"
 room = "2.6.1"
+apollo = "4.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,6 +65,7 @@ work-manager = { module = "androidx.work:work-runtime-ktx", version.ref = "workM
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apollo" }
 
 
 [plugins]
@@ -74,4 +76,5 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlyticsPlugin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "servicesPlugin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+apollo-gradle-plugin = { id = "com.apollographql.apollo", version.ref = "apollo" }
 

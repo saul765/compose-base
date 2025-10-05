@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.crashlytics)
     alias(libs.plugins.google.services)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.apollo.gradle.plugin)
 }
 
 android {
@@ -32,10 +33,6 @@ android {
             debug {
                 enableUnitTestCoverage = true
                 isDebuggable = true
-
-                firebaseCrashlytics {
-                    mappingFileUploadEnabled = false
-                }
             }
             release {
                 isMinifyEnabled = true
@@ -141,6 +138,5 @@ dependencies {
     implementation(libs.room.runtime)
     kapt(libs.room.compiler)
     annotationProcessor(libs.room.compiler)
-
-
+    implementation(libs.apollo.runtime)
 }
