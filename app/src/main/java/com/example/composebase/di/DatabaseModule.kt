@@ -2,7 +2,7 @@ package com.example.composebase.di
 
 import androidx.room.Room
 import com.example.composebase.core.DATABASE_NAME
-import com.example.composebase.core.database.BaseDatabase
+import com.example.composebase.data.database.BaseDatabase
 import org.koin.dsl.module
 
 object DatabaseModule {

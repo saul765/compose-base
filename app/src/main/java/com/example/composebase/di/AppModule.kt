@@ -1,8 +1,6 @@
 package com.example.composebase.di
 
 object AppModule {
-
-
     private val coreModules = listOf(
         CoroutinesModule.module,
         LocalStorageModule.module,
@@ -22,8 +20,10 @@ object AppModule {
 
     private val repositoriesModules = listOf(RepositoriesModule.module)
 
+    private val apiModules = listOf(ApiModule.module)
+
 
     val modules =
         coreModules + databaseModule + viewModelsModules + useCasesModules +
-                firebaseModules + networkModules + repositoriesModules
+                firebaseModules + networkModules + repositoriesModules + apiModules
 }

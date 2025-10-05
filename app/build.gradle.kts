@@ -91,6 +91,13 @@ composeCompiler {
     reportsDestination = layout.buildDirectory.dir("compose_compiler")
 }
 
+apollo {
+    service("service") {
+        // The package name used for generated code.
+        packageName.set("com.example.composebase")
+    }
+}
+
 fun getGradleLocalProperties() = Properties().apply {
     rootProject.file("local.properties").reader().use(::load)
 }

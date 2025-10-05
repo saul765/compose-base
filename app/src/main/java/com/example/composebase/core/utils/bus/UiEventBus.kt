@@ -12,4 +12,8 @@ class UiEventBus() : IUiEventBus, KoinComponent {
     override fun getEvents(): Flow<UiEvent> = _events.receiveAsFlow()
 
     override suspend fun sendEvent(event: UiEvent) = _events.send(event)
+
+    override fun trySendEvent(event: UiEvent) {
+        _events.trySend(event)
+    }
 }
