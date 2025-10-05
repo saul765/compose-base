@@ -31,7 +31,7 @@ fun ComposeBaseApp(
     LaunchedEffect(Unit) {
         viewModel.onEvent(MainActivityUiEvent.OnStart)
     }
-
+    UiEventHandler(viewModel.uiEvents) {
     BottomBarScaffold(
         navigationItems = navigationState.topLevelDestinations,
         navigationItemTitle = { item, _ -> Text(text = stringResource(item.iconText)) },
@@ -55,7 +55,7 @@ fun ComposeBaseApp(
             }
         }
     ) { paddingValues ->
-        UiEventHandler(viewModel.uiEvents) {
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
