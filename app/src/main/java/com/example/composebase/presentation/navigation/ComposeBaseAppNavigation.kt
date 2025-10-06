@@ -13,7 +13,7 @@ import com.example.composebase.presentation.feature.settings.navigation.settings
 @Composable
 fun ComposeBaseAppNavHost(
     modifier: Modifier = Modifier,
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     NavHost(
         modifier = modifier,
@@ -25,7 +25,6 @@ fun ComposeBaseAppNavHost(
         popExitTransition = { fadeOut() }
     ) {
         homeGraph()
-
         settingsGraph()
     }
 }

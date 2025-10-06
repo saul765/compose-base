@@ -21,6 +21,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
 import com.example.composebase.core.design_system.SimpleLoader
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -28,6 +29,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun UiEventHandler(
     events: Flow<UiEvent>,
+    navController: NavController,
     content: @Composable () -> Unit
 ) {
     var isLoading by rememberSaveable { mutableStateOf(false) }
@@ -54,6 +56,17 @@ fun UiEventHandler(
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
+            UiEvent.Navigation.NavigateBack -> navController.navigateUp()
+            is UiEvent.Navigation.NavigateTo -> navController.navigate(
+                event.route,
+                event.navOptions
+            )
+
+            is UiEvent.Navigation.PopUpTo -> navController.popBackStack(
+                event.route,
+                event.inclusive
+            )
         }
     }
     BackHandler(enabled = isLoading) { }

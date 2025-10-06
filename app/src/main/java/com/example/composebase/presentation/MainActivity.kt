@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.compose.rememberNavController
 import com.example.composebase.presentation.theme.ComposeBaseTheme
 
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,11 +23,9 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             KoinContext {
+                val navController = rememberComposeBaseNavigationState()
                 ComposeBaseTheme {
-                    val navControllerState = rememberComposeBaseNavigationState()
-                    ComposeBaseApp(
-                        navigationState = navControllerState
-                    )
+                    ComposeBaseApp(navController)
                 }
             }
         }

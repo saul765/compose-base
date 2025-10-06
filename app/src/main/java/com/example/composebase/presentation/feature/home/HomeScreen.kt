@@ -23,12 +23,10 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    UiEventHandler(viewModel.uiEvents) {
         HomeScreenContent(
             uiState = uiState,
             onEvent = viewModel::onEvent
         )
-    }
 }
 
 @Composable

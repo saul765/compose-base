@@ -2,6 +2,7 @@ package com.example.composebase.core.base.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavOptions
 import com.example.composebase.R
 import com.example.composebase.core.helpers.UiText
 import com.example.composebase.core.utils.bus.UiEventBus
@@ -23,11 +24,18 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
 
     protected fun trySendEvent(event: UiEvent) = _uiEvents.trySendEvent(event)
 
+    private val handler = CoroutineExceptionHandler { _, _ ->
+        trySendEvent(
+            UiEvent.ShowSnackBar(
+                UiText.StringResource(R.string.local_unexpected_error_message)
+            )
+        )
+    }
+
     protected fun dispatch(
         dispatcher: CoroutineContext = dispatchersProvider.getIOContext(),
         block: suspend () -> Unit
     ) = viewModelScope.launch(dispatcher + handler) { block() }
-
 
     protected fun executeUseCases(
         dispatcher: CoroutineContext = dispatchersProvider.getIOContext(),
@@ -38,11 +46,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
         sendEvent(UiEvent.Loading(false))
     }
 
-    private val handler = CoroutineExceptionHandler { _, _ ->
-        _uiEvents.trySendEvent(
-            UiEvent.ShowSnackBar(
-                UiText.StringResource(R.string.local_unexpected_error_message)
-            )
-        )
+    protected fun navigate(route: Any, navOptions: NavOptions? = null) = dispatch {
+        sendEvent(UiEvent.Navigation.NavigateTo(route, navOptions))
     }
 }

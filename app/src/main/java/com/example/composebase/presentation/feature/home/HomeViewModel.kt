@@ -1,10 +1,9 @@
 package com.example.composebase.presentation.feature.home
 
 import com.example.composebase.core.base.viewmodel.BaseViewModel
-import com.example.composebase.core.helpers.UiText
-import com.example.composebase.core.utils.events.UiEvent
 import com.example.composebase.domain.model.Country
 import com.example.composebase.domain.usecases.IGetCountriesUseCase
+import com.example.composebase.presentation.feature.contries.detail.navigation.CountryDetailRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +22,7 @@ class HomeViewModel(private val getCountriesUseCase: IGetCountriesUseCase) : Bas
     }
 
     private fun onCountryClick(country: Country) {
-        trySendEvent(UiEvent.ShowToast(UiText.DynamicString(country.capital)))
+        navigate(CountryDetailRoute(country.code))
     }
 
     fun onEvent(event: HomeUiEvent) {
