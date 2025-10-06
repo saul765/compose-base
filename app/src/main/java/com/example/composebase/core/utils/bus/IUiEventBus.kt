@@ -5,5 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface IUiEventBus {
     fun getEvents(): Flow<UiEvent>
-    fun sendEvent(event: UiEvent)
+    suspend fun sendEvent(event: UiEvent)
+    fun trySendEvent(event: UiEvent)
 }

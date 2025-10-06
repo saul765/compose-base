@@ -6,4 +6,6 @@ import com.example.composebase.domain.model.Country
 @Stable
 data class HomeUiState(
     val countries: List<Country> = emptyList()
-)
+) {
+    val hasData = countries.isNotEmpty()
+}

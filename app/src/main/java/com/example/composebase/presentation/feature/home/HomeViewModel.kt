@@ -13,22 +13,17 @@ import kotlinx.coroutines.flow.update
 class HomeViewModel(private val getCountriesUseCase: IGetCountriesUseCase) : BaseViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
-    var hasData = false
-
 
     private fun onStart() {
-        if (hasData) return
-
-        dispatch {
+        if (uiState.value.hasData) return
+        executeUseCases {
             val countries = getCountriesUseCase()
             _uiState.update { it.copy(countries = countries) }
         }
     }
 
     private fun onCountryClick(country: Country) {
-        sendEvent(
-            UiEvent.ShowToast(UiText.DynamicString(country.capital))
-        )
+        trySendEvent(UiEvent.ShowToast(UiText.DynamicString(country.capital)))
     }
 
     fun onEvent(event: HomeUiEvent) {
