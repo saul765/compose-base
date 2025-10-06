@@ -10,6 +10,7 @@ import androidx.navigation.navOptions
 import com.example.composebase.core.model.enums.TopLevelDestination
 import com.example.composebase.presentation.feature.home.navigation.HomeRoute
 import com.example.composebase.presentation.feature.home.navigation.navigateToHome
+import com.example.composebase.presentation.feature.settings.navigation.SettingsRoute
 import com.example.composebase.presentation.feature.settings.navigation.navigateToSettings
 
 data class ComposeBaseNavigationState(
@@ -33,10 +34,7 @@ data class ComposeBaseNavigationState(
             }
 
             TopLevelDestination.SETTINGS -> {
-                if (!navController.popBackStack(
-                        HomeRoute,
-                        false
-                    )
+                if (!navController.popBackStack(SettingsRoute, false)
                 ) navController.navigateToSettings()
             }
         }
