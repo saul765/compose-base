@@ -25,7 +25,8 @@ fun ComposeBaseTheme(
 ) {
     CompositionLocalProvider(
         LocalCustomColors provides CustomColors(),
-        LocalCustomDimensions provides CustomDimensions()
+        LocalCustomDimensions provides CustomDimensions(),
+        LocalCustomDimensionsSP provides CustomDimensionsSP()
     ) {
         MaterialTheme(
             colorScheme = LightColorScheme,

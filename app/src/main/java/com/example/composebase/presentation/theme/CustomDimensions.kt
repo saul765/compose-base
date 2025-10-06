@@ -8,7 +8,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 data class CustomDimensions(
-    val dimen14: Dp = 14.dp
+    val dimen14: Dp = 14.dp,
+    val dimen16: Dp = 16.dp,
+    val dimen100: Dp = 100.dp
+
 )
 
 val LocalCustomDimensions = staticCompositionLocalOf { CustomDimensions() }

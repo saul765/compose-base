@@ -10,4 +10,6 @@ sealed interface UiEvent {
     ) : UiEvent
 
     data class Loading(val isLoading: Boolean) : UiEvent
+
+    data class ShowToast(val message: UiText) : UiEvent
 }

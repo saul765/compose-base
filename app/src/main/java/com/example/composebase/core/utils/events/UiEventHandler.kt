@@ -1,5 +1,6 @@
 package com.example.composebase.core.utils.events
 
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -44,6 +45,14 @@ fun UiEventHandler(
 
             is UiEvent.Loading -> {
                 isLoading = event.isLoading
+            }
+
+            is UiEvent.ShowToast -> {
+                Toast.makeText(
+                    context,
+                    event.message.asString(context = context),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

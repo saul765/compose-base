@@ -55,7 +55,6 @@ fun ComposeBaseApp(
             }
         }
     ) { paddingValues ->
-
             Box(
                 modifier = Modifier
                     .fillMaxSize()

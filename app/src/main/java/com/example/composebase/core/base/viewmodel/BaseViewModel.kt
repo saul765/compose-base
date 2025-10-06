@@ -21,7 +21,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     protected val _uiEvents by inject<UiEventBus>()
     val uiEvents = _uiEvents.getEvents()
 
-    protected suspend fun sendEvent(event: UiEvent) = _uiEvents.sendEvent(event)
+    protected fun sendEvent(event: UiEvent) = _uiEvents.sendEvent(event)
 
     protected fun dispatch(
         dispatcher: CoroutineContext = dispatchersProvider.getIOContext(),
@@ -29,7 +29,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     ) = viewModelScope.launch(dispatcher + handler) { block() }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        _uiEvents.trySendEvent(
+        _uiEvents.sendEvent(
             UiEvent.ShowSnackBar(
                 UiText.StringResource(R.string.local_unexpected_error_message)
             )
