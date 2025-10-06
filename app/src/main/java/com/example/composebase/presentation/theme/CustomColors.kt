@@ -7,7 +7,8 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 data class CustomColors(
-    val onSuccess: Color = md_theme_light_on_success
+    val onSuccess: Color = md_theme_light_on_success,
+    val black: Color = Color.Black
 )
 
 val LocalCustomColors = staticCompositionLocalOf { CustomColors() }

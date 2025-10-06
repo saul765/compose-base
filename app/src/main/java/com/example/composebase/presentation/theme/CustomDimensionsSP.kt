@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
 data class CustomDimensionsSP(
+    val dimen24: TextUnit = 24.sp,
     val dimen30: TextUnit = 30.sp
 )
 

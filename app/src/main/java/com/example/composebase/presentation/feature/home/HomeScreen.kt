@@ -1,32 +1,29 @@
 package com.example.composebase.presentation.feature.home
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.composebase.core.utils.events.UiEventHandler
+import com.example.composebase.core.ZERO_INTEGER
 import com.example.composebase.domain.model.Country
-import com.example.composebase.presentation.feature.home.component.CountryCard
+import com.example.composebase.presentation.feature.home.component.CountryItem
 import com.example.composebase.presentation.theme.ComposeBaseTheme
-import com.example.composebase.presentation.theme.customDimens
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-        HomeScreenContent(
-            uiState = uiState,
-            onEvent = viewModel::onEvent
-        )
+    HomeScreenContent(
+        uiState = uiState,
+        onEvent = viewModel::onEvent
+    )
 }
 
 @Composable
@@ -37,16 +34,19 @@ private fun HomeScreenContent(uiState: HomeUiState, onEvent: (HomeUiEvent) -> Un
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(MaterialTheme.customDimens.dimen16)
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.customDimens.dimen16)
         ) {
-            items(uiState.countries, key = { it.code }) { country ->
-                CountryCard(
+            itemsIndexed(
+                uiState.countries,
+                key = { _, country -> country.code }) { index, country ->
+
+                if (index != ZERO_INTEGER) HorizontalDivider()
+                CountryItem(
                     flag = country.emoji,
                     name = country.name,
+                    capital = country.capital,
                     onClick = { onEvent(HomeUiEvent.OnCountryClick(country)) }
                 )
             }
