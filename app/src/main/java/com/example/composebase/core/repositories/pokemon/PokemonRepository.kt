@@ -1,5 +1,6 @@
 package com.example.composebase.core.repositories.pokemon
 
+import androidx.paging.PagingSource
 import com.example.composebase.core.database.entity.PokemonEntity
 import com.example.composebase.core.model.PokemonItem
 import com.example.composebase.core.model.PokemonResult
@@ -13,11 +14,16 @@ class PokemonRepository(
     override suspend fun getPokemonsAsync(limit: Int, offset: Int): PokemonResult =
         remoteDataSource.getPokemons(limit, offset).toDomain()
 
-    override  fun getPokemonsLocal(): Flow<List<PokemonEntity>> =
+    override fun getPokemonsLocal(): Flow<List<PokemonEntity>> =
         localDataSource.getPokemons()
+
+    override fun getPokemonsLocalPaged(): PagingSource<Int, PokemonEntity> =
+        localDataSource.getPokemonsPaged()
 
     override suspend fun savePokemonsLocal(pokemons: List<PokemonEntity>) =
         localDataSource.savePokemons(pokemons)
+
+    override suspend fun clearPokemonsLocal() = localDataSource.clearPokemons()
 
     override suspend fun getPokemonByIdLocal(id: Int): PokemonEntity =
         localDataSource.getPokemonById(id)

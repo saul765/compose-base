@@ -30,7 +30,7 @@ object LocalStorageModule {
         dispatcher: ICoroutineContextProvider
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
         corruptionHandler = ReplaceFileCorruptionHandler(
-            produceNewData = { emptyPreferences() },
+            produceNewData = { emptyPreferences() }
         ),
         migrations = listOf(SharedPreferencesMigration(context, PREF_NAME)),
         scope = CoroutineScope(dispatcher.getIOContext()),

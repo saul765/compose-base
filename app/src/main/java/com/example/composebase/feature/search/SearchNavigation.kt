@@ -1,10 +1,9 @@
-package com.example.composebase.feature.search.navigation
+package com.example.composebase.feature.search
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.example.composebase.feature.search.SearchScreen
 import kotlinx.serialization.Serializable
 
 @Serializable

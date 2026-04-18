@@ -32,16 +32,16 @@ import com.example.composebase.core.design_system.icon.BaseIcons
 fun SearchToolbar(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
-    searchState: SearchTextFieldState = SearchTextFieldState(EMPTY_CHARACTER),
+    searchState: SearchTextFieldState = SearchTextFieldState(EMPTY_CHARACTER)
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth()
     ) {
         IconButton(onClick = onBackClick) {
             Icon(
                 imageVector = BaseIcons.ArrowBack,
-                contentDescription = "Back",
+                contentDescription = "Back"
             )
         }
         SearchTextField(state = searchState)
@@ -51,7 +51,7 @@ fun SearchToolbar(
 
 @Composable
 private fun SearchTextField(
-    state: SearchTextFieldState = SearchTextFieldState(EMPTY_CHARACTER),
+    state: SearchTextFieldState = SearchTextFieldState(EMPTY_CHARACTER)
 ) {
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -64,7 +64,7 @@ private fun SearchTextField(
         leadingIcon = {
             Icon(
                 imageVector = BaseIcons.Search,
-                contentDescription = "Buscar",
+                contentDescription = "Buscar"
             )
         },
         trailingIcon = {
@@ -72,11 +72,11 @@ private fun SearchTextField(
                 IconButton(
                     onClick = {
                         state.updateText(EMPTY_CHARACTER)
-                    },
+                    }
                 ) {
                     Icon(
                         imageVector = BaseIcons.Close,
-                        contentDescription = "Borrar",
+                        contentDescription = "Borrar"
                     )
                 }
             }
@@ -102,15 +102,15 @@ private fun SearchTextField(
         shape = RoundedCornerShape(32.dp),
         value = state.text,
         keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Search,
+            imeAction = ImeAction.Search
         ),
         keyboardActions = KeyboardActions(
             onSearch = {
                 onSearchExplicitlyTriggered()
-            },
+            }
         ),
         maxLines = 1,
-        singleLine = true,
+        singleLine = true
     )
 
     LaunchedEffect(Unit) {

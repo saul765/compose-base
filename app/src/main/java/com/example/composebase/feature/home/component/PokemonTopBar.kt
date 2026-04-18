@@ -1,4 +1,4 @@
-package com.example.composebase.feature.home.views
+package com.example.composebase.feature.home.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,7 +26,10 @@ import com.example.composebase.core.design_system.icon.BaseIcons
 import com.example.composebase.ui.theme.PokedexHomeBackgroundColor
 
 @Composable
-fun PokemonTopBar(onSearchClick: () -> Unit = {}, notificationCount: Int = ZERO_INTEGER) {
+fun PokemonTopBar(
+    onSearchClick: () -> Unit = {},
+    notificationCount: Int = ZERO_INTEGER
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier

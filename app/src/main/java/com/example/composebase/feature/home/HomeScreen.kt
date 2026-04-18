@@ -1,111 +1,179 @@
 package com.example.composebase.feature.home
 
+import android.Manifest
 import android.os.Build
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import com.example.composebase.R
-import com.example.composebase.core.ZERO_INTEGER
-import com.example.composebase.core.base.screen.BaseScreen
-import com.example.composebase.core.base.state.rememberDialogState
-import com.example.composebase.core.data.UIStateStatus
-import com.example.composebase.core.design_system.BaseLottieAnimation
+import com.example.composebase.core.compose.AppScaffold
+import com.example.composebase.core.design_system.AlertDialogInformation
 import com.example.composebase.core.design_system.BasePermission
+import com.example.composebase.core.design_system.icon.BaseIcons
+import com.example.composebase.core.model.uiModel.PokemonItemUIModel
 import com.example.composebase.core.utils.capitalize
 import com.example.composebase.core.utils.extensions.goToAppSettings
-import com.example.composebase.feature.home.state.HomeUiState
-import com.example.composebase.feature.home.views.HomeView
-import com.example.composebase.feature.home.views.PokemonTopBar
+import com.example.composebase.feature.home.component.PokemonItem
+import com.example.composebase.feature.home.component.PokemonTopBar
+import com.example.composebase.ui.theme.ComposeBaseTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.flowOf
+import org.koin.androidx.compose.koinViewModel
 
-
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun HomeScreen(onSearchClick: () -> Unit = {}) {
+fun HomeScreen(
+    onSearchClick: () -> Unit = {},
+    viewModel: HomeViewModel = koinViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val pokemons = uiState.pokemons.collectAsLazyPagingItems()
 
-    var notificationCount by remember { mutableIntStateOf(ZERO_INTEGER) }
-
-    val context = LocalContext.current
-
-    var permissionRequestExecuted by remember { mutableStateOf(false) }
-
-
-    BaseScreen<HomeViewModel>(topBar = {
-        PokemonTopBar(onSearchClick = onSearchClick, notificationCount = notificationCount)
-    }) { viewModel ->
-
-        val dialogState = rememberDialogState(false)
-
-        val permissionState = rememberMultiplePermissionsState(
-            listOf(android.Manifest.permission.POST_NOTIFICATIONS)
-        ) { result ->
-            val allGranted = result.values.all { granted -> granted }
-            if (allGranted && !permissionRequestExecuted) {
-                permissionRequestExecuted = true
-                viewModel.getFirst15Pokemons()
-            } else {
-                dialogState.openDialog()
-            }
-        }
-
-        val uiState by viewModel.pokemonUiState.collectAsStateWithLifecycle()
-
-        LaunchedEffect(permissionState.allPermissionsGranted) {
-            if (!permissionRequestExecuted) {
-                permissionState.launchMultiplePermissionRequest()
-            }
-        }
-
-        LaunchedEffect(Unit) {
-            snapshotFlow { uiState }
-                .filterIsInstance<UIStateStatus.Success<HomeUiState>>()
-                .collect { uiState ->
-                    notificationCount = uiState.data.pokemons.size
-                }
-        }
-
-        if (dialogState.isDialogVisible) {
-            BasePermission(
-                dialogState = dialogState,
-                state = permissionState,
-                rationale = stringResource(R.string.pokemon_rationale_permission),
-                goToAppSettings = { context.goToAppSettings() },
-                onGranted = { viewModel.getFirst15Pokemons() },
-                mustRequire = true
+    AppScaffold(
+        topBar = {
+            PokemonTopBar(
+                onSearchClick = onSearchClick,
+                notificationCount = pokemons.itemCount
             )
         }
+    ) {
+        HomeScreenContent(
+            pokemons = pokemons,
+            onEvent = viewModel::onEvent
+        )
+    }
+}
 
-        when (val state = uiState) {
-            is UIStateStatus.Success -> {
-                HomeView(uiState = state.data, onCardClicked = { pokemonItemUIModel ->
-                    Toast.makeText(
-                        context,
-                        pokemonItemUIModel.name.capitalize(),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                })
-            }
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+private fun HomeScreenContent(
+    pokemons: LazyPagingItems<PokemonItemUIModel>,
+    onEvent: (HomeScreenUiEvent) -> Unit
+) {
+    val context = LocalContext.current
+    val permissionRationale = stringResource(id = R.string.pokemon_rationale_permission)
+    var permissionDialogType by rememberSaveable { mutableStateOf<PermissionDialogType?>(null) }
+    var requestPermissionAgain by remember { mutableStateOf<(() -> Unit)?>(null) }
 
-            else -> {
-                BaseLottieAnimation(res = R.raw.pokeball_anim, modifier = Modifier.size(200.dp))
+    BasePermission(
+        permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            listOf(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            emptyList()
+        },
+        onGranted = {
+            permissionDialogType = null
+            onEvent(HomeScreenUiEvent.OnPermissionGranted)
+        },
+        onShouldShowRationale = { requestPermission ->
+            requestPermissionAgain = requestPermission
+            permissionDialogType = PermissionDialogType.Rationale
+        },
+        onPermanentlyDenied = {
+            requestPermissionAgain = null
+            permissionDialogType = PermissionDialogType.GoToSettings
+        }
+    )
+
+    permissionDialogType?.let { dialogType ->
+        AlertDialogInformation(
+            isVisible = true,
+            onDismissRequest = { permissionDialogType = null },
+            onConfirmation = {
+                permissionDialogType = null
+                when (dialogType) {
+                    PermissionDialogType.Rationale -> requestPermissionAgain?.invoke()
+                    PermissionDialogType.GoToSettings -> context.goToAppSettings()
+                }
+            },
+            dialogTitle = stringResource(R.string.alert_dialog_permissions_title),
+            dialogText = permissionRationale,
+            icon = BaseIcons.Info,
+            confirmText = stringResource(
+                if (dialogType == PermissionDialogType.Rationale) {
+                    R.string.alert_dialog_accept
+                } else {
+                    R.string.alert_dialog_permissions_rationale_settings
+                }
+            )
+        )
+    }
+
+    HomePokemonsGrid(
+        pokemons = pokemons,
+        onCardClicked = { pokemon ->
+            Toast.makeText(context, pokemon.name.capitalize(), Toast.LENGTH_SHORT).show()
+        }
+    )
+}
+
+@Composable
+private fun HomePokemonsGrid(
+    pokemons: LazyPagingItems<PokemonItemUIModel>,
+    onCardClicked: (PokemonItemUIModel) -> Unit
+) {
+    LazyVerticalGrid(
+        modifier = Modifier.fillMaxSize(),
+        columns = GridCells.Fixed(POKEMON_ROW_ITEMS),
+        contentPadding = PaddingValues(10.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        items(
+            count = pokemons.itemCount,
+            key = pokemons.itemKey { it.id }
+        ) { index ->
+            pokemons[index]?.let { item ->
+                PokemonItem(
+                    pokemonItem = item,
+                    modifier = Modifier.clickable { onCardClicked(item) }
+                )
             }
         }
-
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun HomeScreenPreview() {
+    val pokemons = flowOf(
+        PagingData.from(
+            listOf(
+                PokemonItemUIModel(id = 1, name = "Bulbasaur", imageUrl = ""),
+                PokemonItemUIModel(id = 2, name = "Ivysaur", imageUrl = ""),
+                PokemonItemUIModel(id = 3, name = "Venusaur", imageUrl = "")
+            )
+        )
+    ).collectAsLazyPagingItems()
+
+    ComposeBaseTheme {
+        HomePokemonsGrid(pokemons = pokemons, onCardClicked = {})
+    }
+}
+
+private const val POKEMON_ROW_ITEMS = 3
+
+private enum class PermissionDialogType {
+    Rationale,
+    GoToSettings
 }

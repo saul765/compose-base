@@ -15,14 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import com.example.composebase.R
-import com.example.composebase.core.base.state.BaseDialogState
-import com.example.composebase.core.base.state.rememberDialogState
 
 
 @Composable
 fun AlertDialog(
     modifier: Modifier = Modifier,
-    state: BaseDialogState = rememberDialogState(),
+    isVisible: Boolean = true,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,
@@ -32,7 +30,7 @@ fun AlertDialog(
     dismissText: String
 ) = AlertDialog(
     modifier = modifier,
-    state = state,
+    isVisible = isVisible,
     onDismissRequest = onDismissRequest,
     onConfirmation = onConfirmation,
     dialogTitle = dialogTitle,
@@ -48,7 +46,7 @@ fun AlertDialog(
 @Composable
 fun AlertDialog(
     modifier: Modifier = Modifier,
-    state: BaseDialogState = rememberDialogState(),
+    isVisible: Boolean = true,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,
@@ -57,9 +55,7 @@ fun AlertDialog(
     confirmText: String,
     dismissText: String
 ) {
-
-
-    if (state.isDialogVisible) {
+    if (isVisible) {
         MaterialTheme() {
             AlertDialog(
                 modifier = modifier,
@@ -102,7 +98,7 @@ fun AlertDialog(
 @Composable
 fun ContentAlertDialog(
     modifier: Modifier = Modifier,
-    state: BaseDialogState = rememberDialogState(),
+    isVisible: Boolean = true,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,
@@ -112,8 +108,7 @@ fun ContentAlertDialog(
     dismissText: String,
     content: @Composable () -> Unit
 ) {
-
-    if (state.isDialogVisible) {
+    if (isVisible) {
         MaterialTheme() {
             AlertDialog(
                 modifier = modifier,
@@ -132,9 +127,7 @@ fun ContentAlertDialog(
                         content()
                     }
                 },
-                onDismissRequest = {
-                    onDismissRequest().also { state.closeDialog() }
-                },
+                onDismissRequest = onDismissRequest,
                 confirmButton = {
                     TextButton(
                         onClick = {
@@ -146,9 +139,7 @@ fun ContentAlertDialog(
                 },
                 dismissButton = {
                     TextButton(
-                        onClick = {
-                            onDismissRequest().also { state.closeDialog() }
-                        }
+                        onClick = onDismissRequest
                     ) {
                         Text(dismissText)
                     }
@@ -167,7 +158,7 @@ fun AlertDialogInformationWithAnimatedIcon(
     dialogText: String,
     dialogAssistText: String? = null,
     icon: @Composable (() -> Unit)? = null,
-    confirmText: String,
+    confirmText: String
 ) {
 
     MaterialTheme() {
@@ -196,7 +187,7 @@ fun AlertDialogInformationWithAnimatedIcon(
                 ) {
                     Text(confirmText)
                 }
-            },
+            }
         )
     }
 }
@@ -211,18 +202,14 @@ fun ErrorDialogInformation(
     dialogAssistText: String? = null,
     icon: ImageVector = Icons.Default.Cancel,
     @StringRes confirmText: Int = R.string.alert_dialog_accept,
-    state: BaseDialogState = rememberDialogState()
+    isVisible: Boolean = true
 ) {
 
     AlertDialogInformation(
-        state = state,
+        isVisible = isVisible,
         modifier = modifier,
-        onDismissRequest = {
-            onDismissRequest().also { state.closeDialog() }
-        },
-        onConfirmation = {
-            onConfirmation()
-        },
+        onDismissRequest = onDismissRequest,
+        onConfirmation = onConfirmation,
         dialogTitle = stringResource(dialogTitle),
         dialogText = dialogText,
         dialogAssistText = dialogAssistText,
@@ -243,9 +230,9 @@ fun AlertDialogInformation(
     dialogAssistText: String? = null,
     icon: ImageVector = Icons.Default.Cancel,
     confirmText: String,
-    state: BaseDialogState = rememberDialogState()
+    isVisible: Boolean = true
 ) = AlertDialogInformation(
-    state = state,
+    isVisible = isVisible,
     dialogAssistText = dialogAssistText,
     dialogTitle = dialogTitle,
     dialogText = {
@@ -254,7 +241,7 @@ fun AlertDialogInformation(
     onDismissRequest = onDismissRequest,
     onConfirmation = onConfirmation,
     icon = icon,
-    confirmText = confirmText,
+    confirmText = confirmText
 )
 
 
@@ -268,11 +255,9 @@ fun AlertDialogInformation(
     dialogAssistText: String? = null,
     icon: ImageVector = Icons.Default.Cancel,
     confirmText: String,
-    state: BaseDialogState = rememberDialogState()
+    isVisible: Boolean = true
 ) {
-
-
-    if (state.isDialogVisible) {
+    if (isVisible) {
         MaterialTheme() {
             AlertDialog(
                 modifier = modifier,
@@ -293,14 +278,10 @@ fun AlertDialogInformation(
                         }
                     }
                 },
-                onDismissRequest = {
-                    onDismissRequest().also { state.closeDialog() }
-                },
+                onDismissRequest = onDismissRequest,
                 confirmButton = {
                     TextButton(
-                        onClick = {
-                            onConfirmation().also { state.closeDialog() }
-                        }
+                        onClick = onConfirmation
                     ) {
                         Text(confirmText)
                     }

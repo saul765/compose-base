@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun GAFLoadingWheel(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
 
 
@@ -48,8 +48,8 @@ fun GAFLoadingWheel(
                     animationSpec = tween(
                         durationMillis = 100,
                         easing = FastOutSlowInEasing,
-                        delayMillis = 40 * index,
-                    ),
+                        delayMillis = 40 * index
+                    )
                 )
             }
         }
@@ -60,9 +60,9 @@ fun GAFLoadingWheel(
             initialValue = 0F,
             targetValue = 360F,
             animationSpec = infiniteRepeatable(
-                animation = tween(durationMillis = ROTATION_TIME, easing = LinearEasing),
+                animation = tween(durationMillis = ROTATION_TIME, easing = LinearEasing)
             ),
-            label = "wheel rotation animation",
+            label = "wheel rotation animation"
         )
 
         val baseLineColor = MaterialTheme.colorScheme.primary
@@ -79,9 +79,9 @@ fun GAFLoadingWheel(
                         baseLineColor at ROTATION_TIME / NUM_OF_LINES using LinearEasing
                     },
                     repeatMode = RepeatMode.Restart,
-                    initialStartOffset = StartOffset(ROTATION_TIME / NUM_OF_LINES / 2 * index),
+                    initialStartOffset = StartOffset(ROTATION_TIME / NUM_OF_LINES / 2 * index)
                 ),
-                label = "wheel color animation",
+                label = "wheel color animation"
             )
         }
 
@@ -90,7 +90,7 @@ fun GAFLoadingWheel(
                 .size(48.dp)
                 .padding(8.dp)
                 .graphicsLayer { rotationZ = rotationAnim }
-                .testTag("loadingWheel"),
+                .testTag("loadingWheel")
         ) {
             repeat(NUM_OF_LINES) { index ->
                 rotate(degrees = index * 30f) {
@@ -103,7 +103,7 @@ fun GAFLoadingWheel(
                         end = Offset(
                             size.width / 2,
                             floatAnimValues[index].value * size.height / 4
-                        ),
+                        )
                     )
                 }
             }

@@ -19,7 +19,7 @@ fun BaseTopAppBar(
     navigationIconContentDescription: String?,
     actionIcon: @Composable () -> Unit = {},
     onNavigationClick: () -> Unit = {},
-    onActionClick: () -> Unit = {},
+    onActionClick: () -> Unit = {}
 ) {
 
 
@@ -32,7 +32,7 @@ fun BaseTopAppBar(
                     IconButton(onClick = onNavigationClick) {
                         Icon(
                             imageVector = navigationIcon,
-                            contentDescription = navigationIconContentDescription,
+                            contentDescription = navigationIconContentDescription
                         )
                     }
                 }
@@ -41,7 +41,7 @@ fun BaseTopAppBar(
                 IconButton(onClick = onActionClick) {
                     actionIcon()
                 }
-            },
+            }
         )
     }
 }

@@ -1,6 +1,5 @@
 package com.example.composebase.core.network
 
-
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.ConnectivityManager.NetworkCallback
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.conflate
 
-
 class NetworkMonitor(
     private val context: Context
 ) : INetworkMonitor {
@@ -21,8 +19,8 @@ class NetworkMonitor(
     override val isOnline: Flow<Boolean> = callbackFlow {
         val connectivityManager = context.getSystemService<ConnectivityManager>()
         if (connectivityManager == null) {
-            channel.trySend(false)
-            channel.close()
+            trySend(false)
+            close()
             return@callbackFlow
         }
 
@@ -31,12 +29,12 @@ class NetworkMonitor(
 
             override fun onAvailable(network: Network) {
                 networks += network
-                channel.trySend(true)
+                trySend(true)
             }
 
             override fun onLost(network: Network) {
                 networks -= network
-                channel.trySend(networks.isNotEmpty())
+                trySend(networks.isNotEmpty())
             }
         }
 
@@ -45,7 +43,7 @@ class NetworkMonitor(
             .build()
         connectivityManager.registerNetworkCallback(request, callback)
 
-        channel.trySend(connectivityManager.isCurrentlyConnected())
+        trySend(connectivityManager.isCurrentlyConnected())
 
 
         awaitClose {
@@ -63,5 +61,4 @@ class NetworkMonitor(
     private fun ConnectivityManager.isCurrentlyConnected() = activeNetwork
         ?.let(::getNetworkCapabilities)
         ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
-
 }

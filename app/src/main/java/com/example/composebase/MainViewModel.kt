@@ -1,26 +1,37 @@
 package com.example.composebase
 
+import androidx.compose.material3.SnackbarDuration
 import androidx.lifecycle.viewModelScope
 import com.example.composebase.core.base.viewmodel.BaseViewModel
+import com.example.composebase.core.helpers.UiText
 import com.example.composebase.core.model.AppUiState
 import com.example.composebase.core.network.INetworkMonitor
-import kotlinx.coroutines.flow.SharingStarted
+import com.example.composebase.core.utils.events.UiEvent
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
-class MainViewModel(networkMonitor: INetworkMonitor) : BaseViewModel() {
+class MainViewModel(private val networkMonitor: INetworkMonitor) : BaseViewModel() {
 
-
-    val uiState: StateFlow<AppUiState> = networkMonitor.isOnline.map {
-        AppUiState(isOnline = it)
+    init {
+        onStart()
     }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = AppUiState(),
-            started = SharingStarted.WhileSubscribed(5_000)
-        )
 
+    private fun onStart() = viewModelScope.launch {
+        networkMonitor.isOnline
+            .distinctUntilChanged()
+            .collect { isOnline ->
+                if (!isOnline) {
+                    sendEvent(
+                        UiEvent.ShowSnackBar(
+                            message = UiText.StringResource(R.string.offline_mode_message),
+                            duration = SnackbarDuration.Long
+                        )
+                    )
+                }
+            }
+    }
 }

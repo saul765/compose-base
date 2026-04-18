@@ -2,7 +2,8 @@ package com.example.composebase
 
 import android.app.Application
 import com.example.composebase.di.AppModule
-import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.Firebase
+import com.google.firebase.crashlytics.crashlytics
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
@@ -16,7 +17,7 @@ class BaseApplication : Application() {
     }
 
     private fun setUpCrashlytics() {
-        FirebaseCrashlytics.getInstance().isCrashlyticsCollectionEnabled = !BuildConfig.DEBUG
+        Firebase.crashlytics.setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
     }
 
     private fun initKoin() {
@@ -27,4 +28,3 @@ class BaseApplication : Application() {
         }
     }
 }
-

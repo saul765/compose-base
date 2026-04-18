@@ -2,59 +2,60 @@ package com.example.composebase.core.design_system
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.res.stringResource
-import com.example.composebase.R
-import com.example.composebase.core.base.state.BaseDialogState
-import com.example.composebase.core.base.state.rememberDialogState
-import com.example.composebase.core.design_system.icon.BaseIcons
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun BasePermission(
-    dialogState: BaseDialogState = rememberDialogState(),
-    state: MultiplePermissionsState = rememberMultiplePermissionsState(listOf()),
-    rationale: String,
-    goToAppSettings: () -> Unit,
+    permissions: List<String>,
     onGranted: () -> Unit,
-    mustRequire: Boolean = false
+    onShouldShowRationale: (requestPermission: () -> Unit) -> Unit = {},
+    onPermanentlyDenied: () -> Unit = {}
 ) {
-    LaunchedEffect(state.allPermissionsGranted) {
-        if (state.allPermissionsGranted) {
-            onGranted.invoke()
+    val currentOnGranted by rememberUpdatedState(onGranted)
+    val currentOnShouldShowRationale by rememberUpdatedState(onShouldShowRationale)
+    val currentOnPermanentlyDenied by rememberUpdatedState(onPermanentlyDenied)
+    var permissionResultVersion by rememberSaveable(permissions) { mutableIntStateOf(0) }
+    val permissionState = rememberMultiplePermissionsState(permissions) {
+        permissionResultVersion += 1
+    }
+    var hasRequested by rememberSaveable(permissions) { mutableStateOf(false) }
+    var hasDispatchedGranted by rememberSaveable(permissions) { mutableStateOf(false) }
+    val requestPermission = {
+        hasRequested = true
+        permissionState.launchMultiplePermissionRequest()
+    }
+
+    LaunchedEffect(permissionState.allPermissionsGranted) {
+        if (permissionState.allPermissionsGranted && !hasDispatchedGranted) {
+            hasDispatchedGranted = true
+            currentOnGranted()
+        } else if (!permissionState.allPermissionsGranted) {
+            hasDispatchedGranted = false
         }
     }
-    if (!state.allPermissionsGranted) {
-        if (state.shouldShowRationale) {
-            AlertDialogInformation(
-                state = dialogState,
-                onDismissRequest = {
-                },
-                onConfirmation = {
-                    goToAppSettings()
-                },
-                dialogTitle = stringResource(R.string.alert_dialog_permissions_title),
-                dialogText = rationale,
-                icon = BaseIcons.Info,
-                confirmText = stringResource(R.string.alert_dialog_permissions_rationale_settings)
-            )
+
+    LaunchedEffect(permissionState.allPermissionsGranted, hasRequested) {
+        if (!permissionState.allPermissionsGranted && !hasRequested) {
+            requestPermission()
+        }
+    }
+
+    LaunchedEffect(permissionResultVersion) {
+        if (permissionResultVersion == 0 || permissionState.allPermissionsGranted) {
+            return@LaunchedEffect
+        }
+        if (permissionState.shouldShowRationale) {
+            currentOnShouldShowRationale(requestPermission)
         } else {
-            if (mustRequire) {
-                AlertDialogInformation(
-                    state = dialogState,
-                    onDismissRequest = {
-                    },
-                    onConfirmation = {
-                        goToAppSettings()
-                    },
-                    dialogTitle = stringResource(R.string.alert_dialog_permissions_title),
-                    dialogText = rationale,
-                    icon = BaseIcons.Info,
-                    confirmText = stringResource(R.string.alert_dialog_permissions_rationale_settings)
-                )
-            }
+            currentOnPermanentlyDenied()
         }
     }
 }

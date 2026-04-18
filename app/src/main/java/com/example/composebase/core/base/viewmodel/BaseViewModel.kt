@@ -1,44 +1,51 @@
 package com.example.composebase.core.base.viewmodel
 
-import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
-import com.example.composebase.R
-import com.example.composebase.core.model.LoadingState
-import com.example.composebase.core.utils.coroutines.ICoroutineContextProvider
+import androidx.lifecycle.viewModelScope
+import com.example.composebase.core.utils.events.UiEvent
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 
 abstract class BaseViewModel : ViewModel(), KoinComponent {
 
-    val contextProvider by inject<ICoroutineContextProvider>()
-
-    private val _loadingState = MutableStateFlow(LoadingState())
-
-    val loadingState = _loadingState.asStateFlow()
-
-    private val _baseErrorState = MutableStateFlow<Throwable?>(null)
-
-    open val baseErrorState = _baseErrorState.asStateFlow()
-
-    open fun showError(throwable: Throwable) {
-        _baseErrorState.update { throwable }
+    private companion object {
+        const val STATE_IN_STOP_TIMEOUT_MILLIS = 5_000L
     }
 
-    open fun hideError() {
-        _baseErrorState.update { null }
-    }
+    private val uiEventChannel = Channel<UiEvent>()
 
-    open fun showLoading(@StringRes message: Int = R.string.local_default_loading_message) {
-        _loadingState.update {
-            it.copy(isLoading = true, message = message)
-        }
-    }
+    val uiEvents = uiEventChannel.receiveAsFlow()
 
-    open fun hideLoading() {
-        _loadingState.update { it.copy(isLoading = false) }
+    protected fun <T> Flow<T>.stateInViewModel(
+        initialState: T,
+        onCollectionStart: () -> Unit = {}
+    ): StateFlow<T> = onStart { onCollectionStart() }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = initialState,
+            started = SharingStarted.WhileSubscribed(STATE_IN_STOP_TIMEOUT_MILLIS)
+        )
+
+    protected fun <T> MutableStateFlow<T>.stateInViewModel(
+        onCollectionStart: () -> Unit = {}
+    ): StateFlow<T> = this
+        .onStart { onCollectionStart() }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = value,
+            started = SharingStarted.WhileSubscribed(STATE_IN_STOP_TIMEOUT_MILLIS)
+        )
+
+    protected fun sendEvent(event: UiEvent) = viewModelScope.launch {
+        uiEventChannel.send(event)
     }
 }

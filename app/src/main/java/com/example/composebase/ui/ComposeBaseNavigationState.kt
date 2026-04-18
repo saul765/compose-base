@@ -6,12 +6,12 @@ import androidx.compose.ui.util.trace
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.example.composebase.core.model.enums.TopLevelDestination
-import com.example.composebase.feature.home.navigation.navigateToHome
-import com.example.composebase.feature.settings.navigation.navigateToSettings
-
+import com.example.composebase.feature.home.navigateToHome
+import com.example.composebase.feature.settings.navigateToSettings
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 data class ComposeBaseNavigationState(
     val navController: NavHostController
@@ -20,7 +20,8 @@ data class ComposeBaseNavigationState(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
+    val topLevelDestinations: ImmutableList<TopLevelDestination> =
+        TopLevelDestination.entries.toImmutableList()
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
         trace("Navigation: ${topLevelDestination.name}") {
@@ -46,11 +47,7 @@ data class ComposeBaseNavigationState(
 
 @Composable
 fun rememberComposeBaseNavigationState(
-    navController: NavHostController = rememberNavController(),
-): ComposeBaseNavigationState = remember(
-    navController
-) {
-    ComposeBaseNavigationState(
-        navController = navController
-    )
+    navController: NavHostController
+): ComposeBaseNavigationState = remember(navController) {
+    ComposeBaseNavigationState(navController = navController)
 }

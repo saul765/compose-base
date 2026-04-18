@@ -4,8 +4,8 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.composebase.R
 import com.example.composebase.core.design_system.icon.BaseIcons
-import com.example.composebase.feature.home.navigation.HomeRoute
-import com.example.composebase.feature.settings.navigation.SettingsRoute
+import com.example.composebase.feature.home.HomeRoute
+import com.example.composebase.feature.settings.SettingsRoute
 import kotlin.reflect.KClass
 
 enum class TopLevelDestination(

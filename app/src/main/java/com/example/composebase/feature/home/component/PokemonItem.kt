@@ -1,4 +1,4 @@
-package com.example.composebase.feature.home.views
+package com.example.composebase.feature.home.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -65,10 +65,17 @@ fun PokemonItem(
                 modifier
                     .fillMaxWidth()
                     .height(60.dp)
-                    .clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp))
+                    .clip(
+                        RoundedCornerShape(
+                            15.dp,
+                            15.dp,
+                            0.dp,
+                            0.dp
+                        )
+                    )
                     .align(Alignment.BottomCenter)
                     .background(color = PokemonCardBackgroundColor)
-            ) {}
+            )
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(pokemonItem.imageUrl)
@@ -87,14 +94,13 @@ fun PokemonItem(
                     .align(Alignment.BottomCenter)
                     .offset(y = (-5).dp)
             )
-
         }
     }
 }
 
 @Composable
 @Preview(showBackground = true)
-fun PokemonItemPreview() {
+private fun PokemonItemPreview() {
 
     val uiState =
         PokemonItemUIModel(

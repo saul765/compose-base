@@ -1,8 +1,8 @@
 package com.example.composebase.di
 
-import com.example.composebase.core.usecases.GetHomePokemonUseCase
+import com.example.composebase.core.usecases.GetPagedPokemonUseCase
 import com.example.composebase.core.usecases.GetPokemonUseCase
-import com.example.composebase.core.usecases.IGetHomePokemonUseCase
+import com.example.composebase.core.usecases.IGetPagedPokemonUseCase
 import com.example.composebase.core.usecases.IGetPokemonUseCase
 import com.example.composebase.core.usecases.IWorkerPokemonUseCase
 import com.example.composebase.core.usecases.WorkerPokemonUseCase
@@ -18,6 +18,6 @@ object UseCasesModule {
 
         singleOf(::GetPokemonUseCase).bind(IGetPokemonUseCase::class)
 
-        singleOf(::GetHomePokemonUseCase).bind(IGetHomePokemonUseCase::class)
+        singleOf(::GetPagedPokemonUseCase).bind(IGetPagedPokemonUseCase::class)
     }
 }

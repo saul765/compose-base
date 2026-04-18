@@ -12,12 +12,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import kotlinx.collections.immutable.ImmutableList
 
 
 @Composable
 fun <T> BottomBarScaffold(
     modifier: Modifier = Modifier,
-    navigationItems: List<T>,
+    navigationItems: ImmutableList<T>,
     shouldShowNavigationBar: Boolean,
     navigationItemTitle: @Composable (item: T, isSelected: Boolean) -> Unit,
     navigationItemIcon: @Composable (item: T, isSelected: Boolean) -> Unit,
@@ -25,7 +26,7 @@ fun <T> BottomBarScaffold(
     onNavigationItemClick: (item: T) -> Unit,
     topBar: (@Composable () -> Unit)? = null,
     snackbarHost: @Composable () -> Unit,
-    content: @Composable (padding: PaddingValues) -> Unit,
+    content: @Composable (padding: PaddingValues) -> Unit
 ) {
 
 
@@ -38,7 +39,7 @@ fun <T> BottomBarScaffold(
                 AnimatedVisibility(visible = shouldShowNavigationBar) {
                     MaterialTheme() {
                         NavigationBar(
-                            modifier = Modifier.testTag("adaptiveScaffold:navigationBar"),
+                            modifier = Modifier.testTag("adaptiveScaffold:navigationBar")
                         ) {
                             navigationItems.forEach { item ->
                                 NavigationBarItem(
@@ -46,13 +47,13 @@ fun <T> BottomBarScaffold(
                                     label = { navigationItemTitle(item, isItemSelected(item)) },
                                     icon = { navigationItemIcon(item, isItemSelected(item)) },
                                     selected = isItemSelected(item),
-                                    onClick = { onNavigationItemClick(item) },
+                                    onClick = { onNavigationItemClick(item) }
                                 )
                             }
                         }
                     }
                 }
-            },
+            }
         ) { padding ->
             content(padding)
         }
